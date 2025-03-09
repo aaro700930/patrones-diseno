@@ -33,7 +33,21 @@ type LogLevel = 'info' | 'warn' | 'error';
 function createLogger(level: LogLevel) {
   // Retorna una función que recibe el "message" como argumento
   // Completar: implementar el logger con formato y color para cada nivel
-  throw new Error('Not implemented');
+  return function(message:string) {
+    const date = new Date(Date.now());
+    const messages = {
+      info: `%cINFO:${formatDate(date)} ${ message }!`,
+      warn: `%cWARNING:${formatDate(date)} ${ message }!`,
+      error: `%cERROR:${formatDate(date)} ${ message }!`,
+    }
+    const colors = {
+        info: COLORS.green,
+        warn: COLORS.yellow,
+        error: COLORS.red,
+    }
+
+  return console.log(messages[level], colors[level]);
+  }
 }
 
 // Ejemplo de uso
@@ -45,6 +59,10 @@ function main() {
   infoLogger('Aplicación iniciada correctamente.');
   warnLogger('El uso de memoria está alto.');
   errorLogger('Error de conexión a la base de datos.');
+  setTimeout(() => {
+      console.log('Periodo de espera')
+      errorLogger('Error de conexión a la base de datos.');
+    }, 4000);
 }
 
 main();
